@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html"  
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:p="http://primefaces.org/ui"   >
+
+    <body> 
+
+        <ui:composition template="/templates/defaultLayout.xhtml">
+
+            <ui:define name="content">  
+                <h:panelGroup layout="block" id="partnersPanel" >
+
+                    <p:spacer width="20" height="20" />
+
+
+                    <h:outputLink value="#{msg.nrmurl}"  target="_blank" > 
+                        <h:graphicImage library="images" name="nrm_logo_farg_html.gif" alt="#{msg.nrm}" 
+                                        title="#{msg.nrm}" styleClass="images" />
+                    </h:outputLink>
+
+                    <p:spacer width="20" height="20" />
+                    <h:outputLink value="#{msg.sluurl}"  target="_blank" > 
+                        <h:graphicImage library="images" name="slu-logo-rgb-web-medium.jpg" alt="#{msg.slu}" 
+                                        title="#{msg.slu}" styleClass="images" />
+                    </h:outputLink> 
+
+                    <p:spacer width="20" height="20" />
+                    <h:outputLink value="#{msg.lifewatchurl}"  target="_blank" > 
+                        <h:graphicImage library="images" name="Svenska-Lifewatch-4.png" alt="#{msg.lifewatch}" 
+                                        title="#{msg.lifewatch}" styleClass="images" />
+                    </h:outputLink> 
+
+
+
+
+                    <p:spacer width="20" height="20" />
+                    <h:outputLink value="#{msg.gnmurl}"  target="_blank" > 
+                        <h:graphicImage library="images" name="gnm_logo.jpg" alt="#{msg.gnm}" 
+                                        title="#{msg.gnm}" styleClass="images" />
+                    </h:outputLink>
+
+                    <p:spacer width="20" height="20" />
+                    <h:outputLink value="#{msg.lundsuniversityurl}"  target="_blank" > 
+                        <h:graphicImage library="images" name="Logotyp_Lunds_universitet_(vit).png" alt="#{msg.lunduniversitory}" 
+                                        title="#{msg.lunduniversitory}" styleClass="images" />
+                    </h:outputLink>
+
+
+                    <p:spacer width="20" height="20" />
+                    <h:outputLink value="#{msg.umeauniversitoryurl}"  target="_blank" > 
+                        <h:graphicImage library="images" name="87223_23210_umu_pos.jpg" alt="#{msg.umeauniversitory}" 
+                                        title="#{msg.umeauniversitory}" styleClass="images" />
+                    </h:outputLink>
+
+
+                    <p:spacer width="20" height="20" /> 
+                    <h:outputLink value="#{msg.smtpurl}"  target="_blank"  > 
+                        <h:graphicImage library="images" name="StationLinne_logo.jpg" alt="#{msg.smtp}" 
+                                        title="#{msg.smtp}" styleClass="imagesbottomepadding"  />
+                    </h:outputLink>  
+
+
+
+                    <p:spacer width="20" height="20" />
+
+
+                </h:panelGroup> 
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

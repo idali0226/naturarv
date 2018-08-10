@@ -1,0 +1,13 @@
+## YAML Template.
+---
+swarm:  
+  solr:
+    path: http://localhost:8983/solr
+#    path: http://dina-db:8983/solr/
+  http:
+    port: 8080
+  management:
+    http:
+      port: 9191
+        
+        

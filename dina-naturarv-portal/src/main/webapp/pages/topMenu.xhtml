@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:h="http://java.sun.com/jsf/html"   >
+
+    <body> 
+        <ui:composition>         
+            <h:panelGrid id="topmenupanel"  styleClass="topmenu" cellpadding="0" cellspacing="0" columns="10">  
+                <p:commandLink actionListener="#{navigate.home}" value="#{msg.startpage}" styleClass="#{style.tabStart}" process="@this" global="false"  update="@all"  /> 
+                <p:spacer width="20"  />
+                <p:commandLink actionListener="#{navigate.collections()}" value="#{msg.ourcollections}" styleClass="#{style.tabCollections}" process="@this" global="false"  update="@all"/> 
+                <p:spacer width="20"  />
+                <p:commandLink actionListener="#{navigate.partners()}"  value="#{msg.partners}" styleClass="#{style.tabPartner}" process="@this" global="false"  update="@all"/> 
+                <p:spacer width="20"  />
+                <p:commandLink actionListener="#{navigate.faq()}" value="#{msg.fqa}" styleClass="#{style.tabFaq}" process="@this" global="false"  update="@all"/> 
+                <p:spacer width="20"  />
+                <p:commandLink actionListener="#{navigate.about()}" value="#{msg.about}" styleClass="#{style.tabAbout}" process="@this" global="false"  update="@all"/>  
+                <p:spacer width="120" height="20" />
+            </h:panelGrid>  
+        </ui:composition>
+    </body> 
+</html>
+

@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html"   
+      xmlns:p="http://primefaces.org/ui"   >
+
+    <body> 
+
+        <ui:composition template="/templates/defaultLayout.xhtml">
+
+            <ui:define name="content">  
+                <h:form id="collectionsForm">   
+                    <h:panelGrid id="collectionListPanel"  > 
+                        <p:accordionPanel value="#{search.collections}" activeIndex="-1"
+                                          var="collection" styleClass="accordingpanel" 
+                                          dynamic="true"  cache="true"  >  
+
+                            <p:ajax event="tabChange" listener="#{chart.onCollectionTabOpen}"   /> 
+
+
+                            <p:tab title="#{collection.name}"   >   
+
+                                <p:chart id="collectionMonthChart"  type="bar" 
+                                         model="#{chart.getCollectionChart(collection.code)}"   
+                                         style="height:300px; width: 550px;"  >   
+                                </p:chart>   
+                                <p:spacer width="20" height="20" /> 
+                                <ui:remove>
+                                    <p:chart   type="bar" model="#{chart.createTenYearsChartForCollection(collection.code)}" 
+                                               style="height:300px; width: 550px;"  >  
+                                    </p:chart>   
+                                </ui:remove>
+                            </p:tab>  
+
+                        </p:accordionPanel>    
+
+                    </h:panelGrid>   
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:p="http://primefaces.org/ui" >
+    <body>
+        <ui:composition>   
+            <h:form id="naturarvheader"> 
+                <h:panelGrid id="dinaheader" styleClass="dinaheader" cellpadding="0" cellspacing="0">   
+                    <h:panelGrid styleClass="dinaheadertext" cellpadding="0" cellspacing="0" >   
+                        <p:commandLink actionListener="#{navigate.home}" value="#{msg.dinase}" styleClass="dinaheadertext"
+                                       process="@this" global="false"  update="@all"/>  
+                    </h:panelGrid> 
+                     
+                        
+                    <h:panelGrid columns="4"  styleClass="languagepanel" >   
+                        <p:commandLink actionListener="#{language.changelanguage('sv')}" value="Svenska" styleClass="#{style.svLink}"
+                                       process="@this" global="false"  update="@all"   />  
+                        <p:spacer width="10" /> 
+                        <p:commandLink actionListener="#{language.changelanguage('en')}" value="English" styleClass="#{style.enLink}"
+                                       process="@this" global="false"  update="@all"    />   
+                        <p:spacer width="10" />
+                    </h:panelGrid>  
+                </h:panelGrid>   
+            </h:form> 
+        </ui:composition>
+    </body>
+</html>

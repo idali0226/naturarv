@@ -1,0 +1,202 @@
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:h="http://java.sun.com/jsf/html"   
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:p="http://primefaces.org/ui"   >
+
+    <body> 
+
+        <ui:composition template="/templates/defaultLayout.xhtml">
+            <ui:define name="windowTitle">
+                Naterarv Home Page
+            </ui:define> 
+            <ui:define name="content">  
+
+
+                <!-- welcome page --> 
+                <h:form>
+                    <p:messages autoUpdate="true" id="messages" showDetail="true" closable="true" /> 
+                </h:form>
+
+                <h:panelGrid id="welcomepagepanel"> 
+                    <h:panelGrid styleClass="searchBoxPanelSimple"  > 
+                        <h:panelGrid  cellpadding="0" cellspacing="0"    styleClass="searchBoxPanelSimple"  > 
+                            <p:commandLink action="#{search.backtoresult}" 
+                                           value="#{msg.backtoresult}" process="@this" global="false"  /> 
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+                    <h:panelGrid cellpadding="0" cellspacing="0"  styleClass="welcomepagepanel"> 
+                        <h:panelGrid  columns="3" id="welcomepanel" columnClasses="searchColumn,emptyColumn,statisticColumn" 
+                                      cellpadding="0" cellspacing="0"  >  
+                            <h:panelGrid>
+
+                                <h:panelGrid columns="2" id="welcome" >
+                                    <p:spacer width="20" />
+                                    <h:panelGrid  styleClass="welcome">
+                                        <h:panelGrid>
+                                            <h:outputText value="#{msg.welcome1}" styleClass="welcomeheader" /> 
+                                            <h:outputText value="#{msg.welcome2}" styleClass="welcomeheader" /> 
+                                        </h:panelGrid> 
+                                    </h:panelGrid>
+                                    <p:spacer width="20" height="5" />
+                                    <p:spacer width="20" height="5" />
+
+                                    <p:spacer width="20" />
+                                    <h:panelGrid columns="3" columnClasses="alignTop,alignTop,alignTop">
+                                        <h:panelGrid > 
+                                            <p:cache region="3baggcache" key="3baggimg">
+                                                <h:graphicImage library="images" name="3bagg_rising.png" alt="3bagg" 
+                                                                title="3bagg" styleClass="images"  width="350" height="292"  />
+                                                <br />
+                                                <h:outputText value="#{msg.photo3bagg}" style="float: left;  font-size: 9px; "  />  
+                                            </p:cache> 
+                                        </h:panelGrid> 
+                                        <p:spacer width="30" />
+                                        <h:panelGrid style="margin-top: 30px;" > 
+                                            <h:outputText value="#{msg.welcomedescription}" /> 
+
+                                            <p:spacer width="20" height="5" />
+                                            <h:panelGrid id="readmorepanel" styleClass="readmorepanel" >  
+                                                <p:commandLink actionListener="#{navigate.about()}" value="#{msg.readmore}" styleClass="#{styleBean.tabAbout}" 
+                                                               process="@this" global="false"  update="@all"  /> 
+                                            </h:panelGrid>
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+
+                                    <p:spacer width="20" height="20" />
+                                    <p:spacer width="20" height="20" /> 
+                                    <p:spacer width="20" />
+
+
+                                    <p:outputPanel deferred="true" deferredMode="visible" autoUpdate="true" layout="block"  >   
+                                        <h:panelGrid style="width: 500px; margin-left: auto;  margin-right:  auto;    "  > 
+                                            <p:chart type="bar" id="monthChart"  model="#{mainChart.totalMonthModel}" 
+                                                     style="height:300px; width: 550px;  "   >   
+                                            </p:chart>  
+
+                                            <p:spacer width="20" />  
+                                            <p:spacer width="20" />
+
+                                            <p:chart type="bar" id="yearChart" model="#{mainChart.totalTenYearsModel}"   
+                                                     style="height:300px; width: 550px; padding-left: 50px;"    >   
+                                            </p:chart> 
+
+
+                                        </h:panelGrid> 
+                                    </p:outputPanel>
+
+                                </h:panelGrid>
+                            </h:panelGrid>
+
+
+                            <p:spacer width="10" height="20" />
+                            <h:panelGrid id="shoutcutpanel" styleClass="shoutcutpanel">
+                                <p:spacer width="20" height="20" /> 
+                                <p:spacer width="20" height="20" />
+                                <p:spacer width="20" height="20" />
+
+                                <h:outputText value="#{msg.commonsearch}" style="font-weight: bold;" /> 
+                                <h:commandLink action="#{search.alldata}"  >   
+                                    <h:panelGrid columns="2" columnClasses="leftcolumn,rightcolumn" cellpadding="0" cellspacing="0" > 
+                                        <h:outputText value="#{msg.alldata}" />  
+                                        <h:outputText value="#{statistic.defaultStatisticData.total}" />
+                                    </h:panelGrid> 
+                                    <f:ajax render=":searchform:result welcomepagepanel"/>
+                                </h:commandLink> 
+
+                                <h:commandLink action="#{search.searchwithmap}"  >   
+                                    <h:panelGrid columns="2" columnClasses="leftcolumn,rightcolumn" cellpadding="0" cellspacing="0" > 
+                                        <h:outputText value="#{msg.datawithmap}" />  
+                                        <h:outputText value="#{statistic.defaultTotalWithMap}" />
+                                    </h:panelGrid> 
+                                    <f:ajax render=":searchform:result welcomepagepanel querypanel"/>
+                                </h:commandLink> 
+
+                                <h:commandLink action="#{search.searchinsweden}"   >   
+                                    <h:panelGrid columns="2" columnClasses="leftcolumn,rightcolumn" cellpadding="0" cellspacing="0" > 
+                                        <h:outputText value="#{msg.datainsweden}" />  
+                                        <h:outputText value="#{statistic.defaultTotalInSweden}" />
+                                    </h:panelGrid> 
+                                    <f:ajax render=":searchform:result welcomepagepanel querypanel"/>
+                                </h:commandLink> 
+
+                                <h:commandLink action="#{search.searchdna}"   >   
+                                    <h:panelGrid columns="2" columnClasses="leftcolumn,rightcolumn" cellpadding="0" cellspacing="0" > 
+                                        <h:outputText value="#{msg.datawithdnasequence}" />  
+                                        <h:outputText value="#{statistic.defaultTotalDNA}" />
+                                    </h:panelGrid> 
+                                    <f:ajax render=":searchform:result welcomepagepanel querypanel"/>
+                                </h:commandLink> 
+
+                                <h:commandLink action="#{search.searchwithimages}"   >   
+                                    <h:panelGrid columns="2" columnClasses="leftcolumn,rightcolumn" cellpadding="0" cellspacing="0" > 
+                                        <h:outputText value="#{msg.specimenswithimage}" />  
+                                        <h:outputText value="#{statistic.defaultTotalWithImage}" />
+                                    </h:panelGrid> 
+                                    <f:ajax render=":searchform:result welcomepagepanel querypanel"/>
+                                </h:commandLink> 
+
+
+                                <h:commandLink action="#{search.searchwithtype}"   >   
+                                    <h:panelGrid columns="2" columnClasses="leftcolumn,rightcolumn" cellpadding="0" cellspacing="0" > 
+                                        <h:outputText value="#{msg.typeddata}" />  
+                                        <h:outputText value="#{statistic.defaultTotalType}" />
+                                    </h:panelGrid> 
+                                    <f:ajax render=":searchform:result welcomepagepanel querypanel"/>
+                                </h:commandLink> 
+
+                                <p:spacer width="20" height="20" />
+                                <p:spacer width="20" height="20" />
+
+                                <h:outputText value="#{msg.allitemsincollections}" style="font-weight: bold;" /> 
+                                <ui:repeat var="collection" value="#{statistic.defaultStatisticData.collections}" varStatus="collectionStatus" >   
+                                    <h:commandLink action="#{search.searchCollection(collection)}"   
+                                                   title="#{collection.name}"  >   
+                                        <h:panelGrid columns="2" columnClasses="leftcolumn,rightcolumn" cellpadding="0" cellspacing="0" > 
+                                            <h:outputText value="#{collection.shortName}" />  
+                                            <h:outputText value="#{collection.total}" />
+                                        </h:panelGrid> 
+                                        <f:ajax render=":searchform:result :searchform:welcomepagepanel"/>
+                                    </h:commandLink>  
+                                </ui:repeat>  
+
+                                <p:spacer width="20" height="20" />
+                                <p:spacer width="20" height="20" />
+
+                                <h:outputText value="#{msg.institution}" style="font-weight: bold;"/>
+                                <ui:repeat var="institutiondata" value="#{statistic.defaultStatisticData.institutionDataList}" varStatus="collectionStatus" >   
+                                    <h:commandLink action="#{search.institutiondata(institutiondata)}"   
+                                                   title="#{institution.institution}"  >   
+                                        <h:panelGrid id="institutionpanel" columns="2" columnClasses="leftcolumn,rightcolumn" cellpadding="0" cellspacing="0" > 
+                                            <h:outputText value="#{institutiondata.institution}" />  
+                                            <h:outputText value="#{institutiondata.numOfRecords}" />
+                                        </h:panelGrid> 
+                                        <f:ajax render=":searchform:result :searchform:welcomepagepanel"/>
+                                    </h:commandLink>  
+                                </ui:repeat>  
+
+                                <p:spacer width="20" height="20" />
+                                <p:spacer width="20" height="20" />
+
+                                <h:outputText value="#{msg.externallink}" style="font-weight: bold;"  /> 
+                                <h:outputLink id="dinaspecieslink" value="http://naturforskaren.se/"  
+                                              title="scientificname"  target="_blank" >  
+                                    <h:outputText value="#{msg.naturforskaren}"   />   
+                                </h:outputLink>  
+                                <h:outputText value="#{msg.naturforskarendesc}" style="font-size: 10px;" /> 
+
+                                <h:outputLink value="http://www.gbif.se/" target="_blank" > 
+                                    <h:outputText value="#{msg.gibf}" /> 
+                                </h:outputLink> 
+                                <h:outputText value="#{msg.gibfdesc}" style="font-size: 10px;" /> 
+
+                            </h:panelGrid>
+
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:panelGrid> 
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

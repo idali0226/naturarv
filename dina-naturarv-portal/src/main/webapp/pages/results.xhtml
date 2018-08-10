@@ -1,0 +1,212 @@
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:p="http://primefaces.org/ui"   
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"   >
+
+    <body> 
+        <ui:composition template="/templates/defaultLayout.xhtml"> 
+            <ui:define name="content">  
+                <h:panelGrid id="results"  cellpadding="0" cellspacing="0" columns="10">  
+
+                    <p:dataScroller value="#{search.results}" var="result" chunkSize="10">
+                        <f:facet name="header">
+                            Scroll Down to Load More Data #{search.totalNumberFound}
+                        </f:facet>
+
+
+                        <h:panelGrid cellpadding="0" cellspacing="0" styleClass="searchColumn"  > 
+                            <p:outputPanel>
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputText value="#{msg.highertaxa}: " style="font-weight: bold" /> 
+                                    <h:outputText value="#{result.highTaxon}"  />
+                                    
+                                    <h:outputText value="#{msg.locality}: " style="font-weight: bold" />  
+                                    <h:outputText value="#{result.locality}" />
+                                    
+                                    <h:outputText value="#{msg.cataloguenumber}: " style="font-weight: bold" /> 
+                                    <h:outputText value="#{result.catalogNumber}"  />
+
+                                    
+
+                                    
+                                </h:panelGrid>
+                            </p:outputPanel>
+                        </h:panelGrid>
+                    </p:dataScroller>
+
+                    <ui:remove>
+                        <p:dataScroller value="#{search.results}" var="result" chunkSize="10">
+                            <f:facet name="header">
+                                Scroll Down to Load More Data
+                            </f:facet>
+
+                            <h:panelGrid columns="2" style="width:100%" columnClasses="logo,detail">  
+                                <p:outputPanel>
+                                    
+                                    <ui:remove>
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <!-- simple list -->
+                                        <h:panelGrid cellpadding="0" cellspacing="0" styleClass="searchColumn"  >  
+                                            <p:dataTable id="simpleDataResultTable" var="result" value="#{search.results}"   
+                                                         paginator="false"  rowIndexVar="indexCount"   
+                                                         rowKey="#{result.catalogNum}" styleClass="simpleResultTable"> 
+                                                <p:column style="font-size: 11px; width : 15px; "  > 
+                                                    <h:selectBooleanCheckbox id="selectone" value="#{result.selected}" style="margin-top: 2px; margin-left: 2px;">
+                                                        <f:ajax event="click" listener="#{search.selectone(result)}"  render=":searchform:result :searchform:maxiumdownloadmsg" />
+                                                    </h:selectBooleanCheckbox> 
+                                                </p:column>
+                                                <p:column style="font-size: 11px; width : 600px; "> 
+                                                    <h:panelGrid columns="2" cellpadding="0" cellspacing="0">
+                                                        <h:panelGrid columns="2" columnClasses="resultTableImageColumn,resultTableDataColumn"  
+                                                                     cellpadding="0" cellspacing="0">
+                                                            <h:graphicImage library="images" 
+                                                                            name="icons/discipline/#{result.disciplineIconId}.png"   
+                                                                            styleClass="images" />  
+
+                                                            <h:commandLink action="#{search.showOneDetail(result)}"  >    
+                                                                <h:outputText value="#{result.name}" style="font-weight: bold; font-size: 13px; color: 	#808080;"/>  
+                                                                <f:ajax render=":searchform:result"/>
+                                                            </h:commandLink>   
+
+                                                            <p:spacer width="5" height="5" />
+                                                            <p:spacer width="5" height="5" />
+
+                                                            <p:spacer width="5" height="5" rendered="#{result.mbid == null}"  /> 
+                                                            <p:commandLink rendered="#{result.mbid != null}" 
+                                                                           action="#{search.displayImages(result)}" update=":searchform:result :searchform:imgswitchdialog" >
+                                                                <p:graphicImage value="/resources/images/icons/camera-min16x12.gif" 
+                                                                                title="#{msg.showimages}" alt="#{msg.showimages}"
+                                                                                styleClass="images" /> 
+                                                            </p:commandLink>
+
+
+
+
+                                                            <h:panelGrid  columns="2"  cellpadding="0" cellspacing="0" columnClasses="simpleTableLabelCol,simpleTableValueCol"> 
+                                                                <h:outputText value="#{msg.highertaxa}: " />  
+                                                                <h:outputText value="#{result.highTaxon}" />
+
+                                                                <h:outputText value="#{msg.collectiondate}: " /> 
+                                                                <h:outputText value="#{result.startDate}"  >
+                                                                    <!--                                                                    <f:convertDateTime pattern="yyyy-MM-dd" />-->
+                                                                    <f:convertDateTime pattern="yyyy-MM-dd" timeZone="GMT+3" />
+                                                                </h:outputText>
+
+                                                                <h:outputText value="#{msg.locality}: " />  
+                                                                <h:outputText value="#{result.locality}" />
+
+                                                                <h:outputText value="#{msg.cataloguenumber}: " /> 
+                                                                <h:outputText value="#{result.catalogNum}" /> 
+                                                            </h:panelGrid> 
+
+
+
+                                                            <p:spacer width="5" height="5" />
+                                                            <h:panelGrid columns="2" cellpadding="0" cellspacing="0" id="imagePanel" >   
+
+                                                                <h:panelGrid  rendered="#{result.displayImage}"> 
+                                                                    <h:commandLink action="#{search.closeImage(result)}" value="#{msg.closeimage}">    
+                                                                        <f:ajax render="imagePanel"/>
+                                                                    </h:commandLink>   
+
+                                                                    <ui:repeat value="#{result.thumbs}" var="thumb">    
+                                                                        <p:commandLink  action="#{imageSwitcher.imageSwitch(result)}" 
+                                                                                        oncomplete="PF('imgswitchdlg').show()" 
+                                                                                        update=":searchform:imageswitchpanel">
+                                                                            <p:graphicImage value="#{thumb}" title="#{result.fullname}/#{result.catalogNum}" 
+                                                                                            alt="#{result.catalogNum}" styleClass="imageswithpedding" /> 
+
+                                                                        </p:commandLink>  
+
+                                                                    </ui:repeat>   
+                                                                </h:panelGrid>
+                                                            </h:panelGrid>
+
+
+
+                                                            <p:spacer width="5" height="5" />
+                                                            <h:panelGrid columns="2" cellpadding="0" cellspacing="0" id="singleMap" >   
+                                                                <h:panelGrid rendered="#{result.displayMap}"> 
+                                                                    <h:commandLink action="#{search.closeMap(result)}" value="#{msg.closemap}" rendered="#{result.coordinate == 0}">    
+                                                                        <f:ajax render="singleMap"/>
+                                                                    </h:commandLink> 
+
+                                                                    <f:view> 
+                                                                        <p:gmap center="#{result.lat1}, #{result.lnt1}" type="ROADMAP"
+                                                                                zoom="8" model="#{mapBean.getAdvancedModel(result)}" 
+                                                                                style="width:600px; height:300px" fitBounds="false"   >  
+
+                                                                            <p:ajax event="overlaySelect" listener="#{mapBean.onMarkerSelect}" />  
+
+                                                                            <p:gmapInfoWindow >  
+                                                                                <p:outputPanel  style="text-align:center;display:block;margin:auto; overflow: visible; width: 300px; ">   
+                                                                                    <h:panelGrid columns="2" >
+                                                                                        <h:graphicImage library="images" name="pin_1.png" alt="pin"   styleClass="images" /> 
+                                                                                        <h:outputText value="#{result.locality}"  style=" font-size: 9px;" />   
+                                                                                        <h:column />
+                                                                                        <h:outputText value="#{result.lat} -- #{result.lnt}" style=" font-size: 9px;" />    
+                                                                                    </h:panelGrid> 
+                                                                                </p:outputPanel>   
+                                                                            </p:gmapInfoWindow>  
+                                                                        </p:gmap> 
+                                                                    </f:view>  
+                                                                </h:panelGrid>
+                                                            </h:panelGrid>
+
+
+
+                                                            <p:spacer width="10" height="5" />
+                                                            <h:panelGroup layout="block" >  
+                                                                <p:commandLink value="#{msg.showmap}" rendered="#{result.coordinate == 0}"
+                                                                               action="#{search.showmap(result)}"    
+                                                                               update=":searchform:result" /> 
+
+                                                                <p:spacer width="10" height="5" rendered="#{result.coordinate == 0}" />
+
+
+                                                                <h:outputLink id="scientificNameLinkNrmSingle" value="http://naturforskaren.se/search/#{result.fullname.trim()}"  
+                                                                              title="scientificname"  target="_blank" >                   
+                                                                    <h:outputText value="#{msg.showintaxonpages}"  style="font-family: Arial,sans-serif;" />   
+                                                                </h:outputLink>   
+
+                                                                <p:spacer width="10" height="5" />
+
+
+
+                                                                <p:commandLink value="#{msg.errorreport}"    process="@this"  global="false"
+                                                                               action="#{search.errorreport(result)}" 
+                                                                               update=":searchform:result :searchform:welcomepagepanel" /> 
+
+                                                                <ui:remove>
+                                                                    <p:commandLink value="#{msg.errorreport}"  oncomplete="PF('dlg').show()" 
+                                                                                   action="#{search.errorreport(result)}"    process="@this"  global="false"
+                                                                                   update=":searchform:errorreportPanel" />  
+                                                                </ui:remove>
+
+
+                                                            </h:panelGroup> 
+
+                                                            <p:spacer width="10" height="20" />
+                                                            <p:spacer width="10" height="20" />
+
+
+                                                        </h:panelGrid>  
+
+                                                    </h:panelGrid>
+
+                                                </p:column>  
+                                            </p:dataTable> 
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+                                        </ui:remove>
+                                </p:outputPanel>
+                            </h:panelGrid>
+                        </p:dataScroller>
+                    </ui:remove>
+                </h:panelGrid>  
+            </ui:define>
+        </ui:composition>
+    </body> 
+</html>
+
